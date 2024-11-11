@@ -51,17 +51,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     public long updateSchedule(Long id, ScheduleRequestDto requestDto)
             throws FindException, NoSuchElementException {
 
-        ScheduleResponseDto scheduleResponseDto = scheduleRepository.findScheduleById(id);
-
-        if(scheduleResponseDto==null)
+        if(scheduleRepository.findScheduleById(id) == null)
             throw new FindException("존재하지 않는 게시물입니다.");
 
-        Optional<User> OptionalUser = userRepository.findUserByScheduleId(id);
-
-        User user = OptionalUser.orElseThrow(()->new FindException("존재하지 않는 유저입니다."));
+        User user = userRepository.findUserByScheduleId(id)
+                .orElseThrow(()->new FindException("존재하지 않는 유저입니다."));
 
         if ( !user.getPassword().equals(requestDto.getPassword()) ){
-            System.out.println(user.getPassword());
             throw new NoSuchElementException("비밀번호 불일치");
         }
 
@@ -70,5 +66,19 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleRepository.updateSchedule(id, requestDto);
 
         return id;
+    }
+
+    @Override
+    public void deleteSchedule(Long id, String password) {
+
+        User user = userRepository.findUserByScheduleId(id)
+                .orElseThrow(()->new FindException("존재하지 않는 유저입니다."));
+
+        if( !user.getPassword().equals(password) ){
+            System.out.println(user.getPassword());
+            throw new NoSuchElementException("비밀번호 불일치");
+        }
+
+        scheduleRepository.deleteSchedule(id);
     }
 }
