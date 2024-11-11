@@ -38,6 +38,12 @@ public class JdbcTemplateUserRepository implements UserRepository {
         return result.stream().findFirst();
     }
 
+    @Override
+    public void updateUserName(Long id, String author) {
+        jdbcTemplate.update("update user set name = ? where id = ?",
+                author, id);
+    }
+
     private RowMapper<User> userRowMapper() {
         return new RowMapper<User>() {
             @Override
