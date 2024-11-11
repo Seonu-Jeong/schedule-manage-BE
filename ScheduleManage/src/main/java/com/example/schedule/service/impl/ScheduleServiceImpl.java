@@ -7,7 +7,10 @@ import com.example.schedule.repository.ScheduleRepository;
 import com.example.schedule.repository.UserRepository;
 import com.example.schedule.service.ScheduleService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.module.FindException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -42,5 +45,30 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleResponseDto findScheduleById(Long id) {
         return scheduleRepository.findScheduleById(id);
+    }
+
+    @Override
+    public long updateSchedule(Long id, ScheduleRequestDto requestDto)
+            throws FindException, NoSuchElementException {
+
+        ScheduleResponseDto scheduleResponseDto = scheduleRepository.findScheduleById(id);
+
+        if(scheduleResponseDto==null)
+            throw new FindException("존재하지 않는 게시물입니다.");
+
+        Optional<User> OptionalUser = userRepository.findUserByScheduleId(id);
+
+        User user = OptionalUser.orElseThrow(()->new FindException("존재하지 않는 유저입니다."));
+
+        if ( !user.getPassword().equals(requestDto.getPassword()) ){
+            System.out.println(user.getPassword());
+            throw new NoSuchElementException("비밀번호 불일치");
+        }
+
+        userRepository.updateUserName(user.getId(), requestDto.getAuthor());
+
+        scheduleRepository.updateSchedule(id, requestDto);
+
+        return id;
     }
 }

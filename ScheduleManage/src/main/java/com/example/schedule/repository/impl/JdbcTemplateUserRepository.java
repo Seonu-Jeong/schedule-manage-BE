@@ -29,6 +29,21 @@ public class JdbcTemplateUserRepository implements UserRepository {
         return result.stream().findFirst();
     }
 
+    @Override
+    public Optional<User> findUserByScheduleId(Long id) {
+        List<User> result = jdbcTemplate.query("select * from user where id = (select user_id from schedule " +
+                        "where id = ?)",
+                userRowMapper(), id);
+
+        return result.stream().findFirst();
+    }
+
+    @Override
+    public void updateUserName(Long id, String author) {
+        jdbcTemplate.update("update user set name = ? where id = ?",
+                author, id);
+    }
+
     private RowMapper<User> userRowMapper() {
         return new RowMapper<User>() {
             @Override
@@ -36,7 +51,7 @@ public class JdbcTemplateUserRepository implements UserRepository {
                 return new User(
                         rs.getLong("id"),
                         rs.getString("name"),
-                        rs.getString("email"),
+                        rs.getString("password"),
                         rs.getObject("creation_date", LocalDateTime.class),
                         rs.getObject("modification_date", LocalDateTime.class)
                 );

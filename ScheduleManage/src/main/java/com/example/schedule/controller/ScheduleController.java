@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.module.FindException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -33,7 +35,7 @@ public class ScheduleController {
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<String> exceptionHandler(Exception e) {
+    public ResponseEntity<String> InputExceptionHandler(Exception e) {
         JsonObject obj = new JsonObject();
 
         obj.addProperty("error_msg", e.getMessage());
@@ -59,4 +61,24 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/{id}")
+    public String updateSchedule(
+            @PathVariable Long id, @RequestBody ScheduleRequestDto requestDto) {
+
+        JsonObject obj = new JsonObject();
+
+        obj.addProperty("id", scheduleService.updateSchedule(id, requestDto));
+
+        return obj.toString();
+    }
+
+    @ExceptionHandler(FindException.class)
+    public ResponseEntity<String> NoExistExceptionHandler(Exception e) {
+        JsonObject obj = new JsonObject();
+
+        obj.addProperty("error_msg", e.getMessage());
+
+        return new ResponseEntity<>(obj.toString(), HttpStatus.BAD_REQUEST);
+    }
 }
