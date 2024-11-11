@@ -9,4 +9,6 @@ public interface ScheduleService {
     long saveSchedule(ScheduleRequestDto scheduleRequestDto);
 
     List<ScheduleResponseDto> findAll(String author, String modificationDate);
+
+    ScheduleResponseDto findScheduleById(Long id);
 }
