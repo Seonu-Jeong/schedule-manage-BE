@@ -9,4 +9,6 @@ public interface ScheduleRepository {
     long saveSchedule(Long id, String todo);
 
     List<ScheduleResponseDto> findScheduleByAuthorAndModificationDate(String author, String modificationDate);
+
+    ScheduleResponseDto findScheduleById(Long id);
 }
