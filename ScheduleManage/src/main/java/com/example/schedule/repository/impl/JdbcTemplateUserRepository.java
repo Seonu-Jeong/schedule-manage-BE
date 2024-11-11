@@ -51,7 +51,7 @@ public class JdbcTemplateUserRepository implements UserRepository {
                 return new User(
                         rs.getLong("id"),
                         rs.getString("name"),
-                        rs.getString("email"),
+                        rs.getString("password"),
                         rs.getObject("creation_date", LocalDateTime.class),
                         rs.getObject("modification_date", LocalDateTime.class)
                 );
