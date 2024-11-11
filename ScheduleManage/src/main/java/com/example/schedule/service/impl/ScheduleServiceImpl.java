@@ -38,4 +38,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<ScheduleResponseDto> findAll(String author, String modificationDate) {
         return scheduleRepository.findScheduleByAuthorAndModificationDate(author, modificationDate);
     }
+
+    @Override
+    public ScheduleResponseDto findScheduleById(Long id) {
+        return scheduleRepository.findScheduleById(id);
+    }
 }
