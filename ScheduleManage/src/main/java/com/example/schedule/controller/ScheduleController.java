@@ -61,6 +61,18 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/{id}")
+    public String updateSchedule(
+            @PathVariable Long id, @RequestBody ScheduleRequestDto requestDto) {
+
+        JsonObject obj = new JsonObject();
+
+        obj.addProperty("id", scheduleService.updateSchedule(id, requestDto));
+
+        return obj.toString();
+    }
+
     @ExceptionHandler(FindException.class)
     public ResponseEntity<String> NoExistExceptionHandler(Exception e) {
         JsonObject obj = new JsonObject();
