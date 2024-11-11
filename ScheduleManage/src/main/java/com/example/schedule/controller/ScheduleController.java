@@ -3,6 +3,9 @@ package com.example.schedule.controller;
 import com.example.schedule.dto.ScheduleRequestDto;
 import com.example.schedule.dto.ScheduleResponseDto;
 import com.example.schedule.service.ScheduleService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,7 +76,26 @@ public class ScheduleController {
         return obj.toString();
     }
 
-    @ExceptionHandler(FindException.class)
+    @DeleteMapping("/{id}")
+    public String deleteSchedule(@PathVariable Long id,  @RequestBody String password) throws JsonProcessingException {
+
+
+        // ObjectMapper 객체 생성
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // JSON 파일을 Java 객체로 읽기
+        JsonNode json = objectMapper.readTree(password);
+
+        scheduleService.deleteSchedule(id, json.get("password").asText());
+
+        JsonObject obj = new JsonObject();
+
+        obj.addProperty("id", id);
+
+        return obj.toString();
+    }
+
+    @ExceptionHandler({FindException.class, JsonProcessingException.class})
     public ResponseEntity<String> NoExistExceptionHandler(Exception e) {
         JsonObject obj = new JsonObject();
 
