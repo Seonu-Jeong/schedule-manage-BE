@@ -33,7 +33,7 @@ public class ScheduleController {
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<String> exceptionHandler(Exception e) {
+    public ResponseEntity<String> InputExceptionHandler(Exception e) {
         JsonObject obj = new JsonObject();
 
         obj.addProperty("error_msg", e.getMessage());
