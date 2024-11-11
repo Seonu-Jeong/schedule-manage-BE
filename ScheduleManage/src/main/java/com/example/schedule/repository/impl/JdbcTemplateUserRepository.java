@@ -29,6 +29,15 @@ public class JdbcTemplateUserRepository implements UserRepository {
         return result.stream().findFirst();
     }
 
+    @Override
+    public Optional<User> findUserByScheduleId(Long id) {
+        List<User> result = jdbcTemplate.query("select * from user where id = (select user_id from schedule " +
+                        "where id = ?)",
+                userRowMapper(), id);
+
+        return result.stream().findFirst();
+    }
+
     private RowMapper<User> userRowMapper() {
         return new RowMapper<User>() {
             @Override
