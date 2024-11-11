@@ -1,5 +1,6 @@
 package com.example.schedule.repository.impl;
 
+import com.example.schedule.dto.ScheduleRequestDto;
 import com.example.schedule.dto.ScheduleResponseDto;
 import com.example.schedule.repository.ScheduleRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -68,6 +69,12 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         }
 
         return result.get(0);
+    }
+
+    @Override
+    public int updateSchedule(Long id, ScheduleRequestDto requestDto) {
+        return jdbcTemplate.update("update schedule set todo = ? where id = ?",
+                requestDto.getTodo(), id);
     }
 
     private RowMapper<ScheduleResponseDto> scheduleRowMapper() {
