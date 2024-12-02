@@ -40,6 +40,6 @@ RDBMS : MYSQL_Server 9.1.0
 
 ## 참고 블로그 글
 
-아래는 해당 프로젝트를 제작하며 작성한 블로그 글입니다.
+아래는 해당 프로젝트 개발 후 회고 블로그 글입니다.
 
-[JDBC Template를 이용한 스프링 CRUD 실습 프로젝트](https://velog.io/@seonu1119/%EC%8A%A4%ED%94%84%EB%A7%81-JDBC-Template%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-CRUD-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84)
+[일정 관리 앱 서버 만들기](https://velog.io/@seonu1119/%EC%9D%BC%EC%A0%95-%EA%B4%80%EB%A6%AC-%EC%95%B1-%EB%A7%8C%EB%93%A4%EA%B8%B0)
